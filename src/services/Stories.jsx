@@ -1,26 +1,34 @@
-import React, { useEffect } from "react";
+import React from "react";
+import { useGlobalContext } from "../hooks/Context";
 
 const Stories = () => {
-  const isLoading = true;
-  let API = "https://hn.algolia.com/api/v1/search?query=html";
+  const { hits, nbPages, isLoading, removePost } = useGlobalContext();
 
-  const fetchApiData = async url => {
-    try {
-      const res = await fetch(url);
-      const data = await res.json();
-      console.log(data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  return (
+    <>
+      <h1>Posts</h1>
 
-  useEffect(() => {
-    fetchApiData(API);
-  }, []);
-
-  if (isLoading) return <h2>Loading...</h2>;
-
-  return <div>Stories</div>;
+      {isLoading ? <h2>Loading...</h2> : null}
+      {hits.map(currPost => {
+        const { title, author, objectID, url, num_comments } = currPost;
+        return (
+          <div className="card" key={objectID}>
+            <h2>{title}</h2>
+            <p>
+              By <span> {author} </span> | <span> {num_comments} </span>
+              Comments
+            </p>
+            <div className="card-button">
+              <a href={url} target="_blank">
+                Read More
+              </a>
+              <button onClick={() => removePost(objectID)}>Remove</button>
+            </div>
+          </div>
+        );
+      })}
+    </>
+  );
 };
 
 export default Stories;
