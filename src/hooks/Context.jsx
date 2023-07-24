@@ -50,12 +50,30 @@ const AppProvider = ({ children }) => {
     dispatch({ type: "SEARCH_QUERY", payload: searchQuery }); //in payload we can write any name related to that function it is an extra pair of information that we are passing here
   };
 
+  // Pagination
+  const getNextPage = () => {
+    dispatch({ type: "NEXT_PAGE" });
+  };
+
+  const getPrevPage = () => {
+    dispatch({ type: "PREV_PAGE" });
+  };
+
+  // Calling api function
   useEffect(() => {
     fetchApiData(`${API}query=${state.query}&page=${state.page}`);
-  }, [state.query]);
+  }, [state.query, state.page]);
 
   return (
-    <AppContext.Provider value={{ ...state, removePost, searchPost }}>
+    <AppContext.Provider
+      value={{
+        ...state,
+        removePost,
+        searchPost,
+        getNextPage,
+        getPrevPage,
+      }}
+    >
       {children}
     </AppContext.Provider>
   );

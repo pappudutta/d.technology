@@ -9,7 +9,7 @@ function App() {
 
   return (
     <>
-      <div>Welcome</div>
+      <div>Welcome to DTech news</div>
       <Search />
       <Pagination />
       <Stories />

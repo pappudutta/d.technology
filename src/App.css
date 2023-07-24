@@ -49,3 +49,12 @@ a:hover {
 .read-the-docs {
   color: #888;
 }
+
+.pagination-btn {
+  display: flex;
+  justify-content: center;
+  padding-top: 2em;
+}
+button {
+  margin: 0 1em;
+}
