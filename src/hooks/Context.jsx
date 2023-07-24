@@ -6,7 +6,7 @@ let API = "https://hn.algolia.com/api/v1/search?";
 
 const initialState = {
   isLoading: true,
-  query: "HTML",
+  query: "",
   nbPages: 0,
   page: 0,
   hits: [],
@@ -45,12 +45,17 @@ const AppProvider = ({ children }) => {
     dispatch({ type: "REMOVE_POST", payload: post_id });
   };
 
+  // SEARCH POST
+  const searchPost = searchQuery => {
+    dispatch({ type: "SEARCH_QUERY", payload: searchQuery }); //in payload we can write any name related to that function it is an extra pair of information that we are passing here
+  };
+
   useEffect(() => {
     fetchApiData(`${API}query=${state.query}&page=${state.page}`);
-  }, []);
+  }, [state.query]);
 
   return (
-    <AppContext.Provider value={{ ...state, removePost }}>
+    <AppContext.Provider value={{ ...state, removePost, searchPost }}>
       {children}
     </AppContext.Provider>
   );
@@ -61,4 +66,5 @@ const useGlobalContext = () => {
   return useContext(AppContext);
 };
 
-export { AppContext, AppProvider, useGlobalContext };
+// export { AppContext, AppProvider, useGlobalContext };
+export { AppProvider, useGlobalContext };
